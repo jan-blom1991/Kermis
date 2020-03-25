@@ -1,33 +1,58 @@
-import java.util.stream.IntStream;
+import java.util.ArrayList;
 
 public class Kassa {
-    private double totaalOmzet;
-    private int[] teller = new int[6];
+    private static double totaalOmzet;
+    private static double kansSpelBelasting;
+    private static int aantalInspecties;
 
-    public double getTotaalOmzet() {
+    public static double getTotaalOmzet() {
         return totaalOmzet;
     }
 
-    public int getTeller(int index) {
-        return teller[index];
+    public static void setTotaalOmzet(double totaalOmzet) {
+        Kassa.totaalOmzet = totaalOmzet;
     }
 
-    public void berekenen(int index, double prijs) {
-        teller[index] += 1;
-        totaalOmzet += prijs;
+    public static void setKansSpelBelasting(double kansSpelBelasting) {
+        Kassa.kansSpelBelasting = kansSpelBelasting;
     }
 
-    public void lijst() {
-        System.out.println("Hieronder zie je de lijst met attracties:");
-        System.out.println("1. Botsauto's");
-        System.out.println("2. Spin");
-        System.out.println("3. Spiegelauto's");
-        System.out.println("4. Spookhuis");
-        System.out.println("5. Hawaii");
-        System.out.println("6. Ladderklimmen");
+    public static double getKansSpelBelasting() {
+        return kansSpelBelasting;
     }
 
-    public int somVanKaartjes() {
-        return IntStream.of(teller).sum();
+    public static int getAantalInspecties() {
+        return aantalInspecties;
+    }
+
+    public static void setAantalInspecties(int aantalInspecties) {
+        Kassa.aantalInspecties = aantalInspecties;
+    }
+
+    public static void berekenenTotaalOmzet(int index, ArrayList<Attractie> lijst) {
+        totaalOmzet += lijst.get(index).prijs;
+    }
+
+    public static int somVanKaartjes(ArrayList<Attractie> lijst) {
+        int som = 0;
+        for(Attractie attractie : lijst) {
+            som += attractie.kaartjes;
+        }
+        return som;
+    }
+
+    public static void opstellingsKeuring(int grens, int index, ArrayList<Attractie> lijst) {
+        if (lijst.get(index).kaartjes % grens == 0) {
+            System.out.println("\nEr wordt een onderhoudsbeurt voor deze attractie uitgevoerd!");
+        }
+    }
+
+    public static double betaaldeBelasting() {
+        ArrayList<Double> boekhouding = Belastinginspecteur.getBoekhoudingBelasting();
+        double som = 0;
+        for(double belasting : boekhouding) {
+            som += belasting;
+        }
+        return som;
     }
 }
